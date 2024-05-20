@@ -393,6 +393,7 @@ path{
   width: 100%;
 } 
 
+
 /*  cursor*/
 :root {
   --glow-rgb: 239 42 201;
@@ -471,3 +472,6 @@ path{
     margin-bottom: 20px;
     padding: 20px;
   }
+.login-btn{
+  color: #fff;
+}

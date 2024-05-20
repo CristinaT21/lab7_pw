@@ -15,7 +15,7 @@ import SVGColorChanger from "./SVGColorChanger";
 import SideBar from "./SideBar";
 
 
-const BoxComponent = () => {
+const BoxComponent = ({palettes, setPalettes, getAllPalettes, postPalette, deletePalette}) => {
     const [selectedColor, setSelectedColor] = useState('#000');
 
     const [favorites, setFavorites] = useState(() => {
@@ -31,9 +31,13 @@ const BoxComponent = () => {
     // Handle adding to favorites
     const handleAddToFavorites = () => {
         const colorName = prompt('Enter a name for your favorite color palette:');
-        if(colorName) {
-            setFavorites([...favorites, { name: colorName, color: selectedColor }]);
-            console.log('Added to favorites!');
+        // if(colorName) {
+        //     setFavorites([...favorites, { name: colorName, color: selectedColor }]);
+        //     console.log('Added to favorites!');
+        // }
+        if (colorName) {
+            postPalette({ "name": colorName, "color": selectedColor });
+            console.log('Added:', JSON.stringify({ name: colorName, color: selectedColor }));
         }
     };
     const handleColorChange = (color) => {
@@ -42,14 +46,17 @@ const BoxComponent = () => {
     // Function to handle item deletion from favorites
     const handleRemoveFavorite = (indexToRemove) => {
         // Filter out the item at the specific index
-        const newFavorites = favorites.filter((_, index) => index !== indexToRemove);
-        setFavorites(newFavorites);
+        // const newFavorites = favorites.filter((_, index) => index !== indexToRemove);
+        // setFavorites(newFavorites);
+
+        // Remove the item from the database
+        deletePalette(palettes[indexToRemove].id);
     };
 
     return (
         <>
             <div>
-                <SideBar favorites={favorites} onColorChange={handleColorChange} onRemoveFavorite={handleRemoveFavorite} />
+                <SideBar favorites={palettes} onColorChange={handleColorChange} onRemoveFavorite={handleRemoveFavorite} palettes={palettes} setPalettes={setPalettes} getAllPalettes={getAllPalettes}/>
                 <div className="page-content mdl-grid">
 					<div className="mdl-cell mdl-cell--6-col mdl-cell--4-col-phone mdl-cell--3-col-tablet mdl-cell--middle">
 						<div className="watch">

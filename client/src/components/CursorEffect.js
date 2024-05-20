@@ -23,8 +23,6 @@ const CursorEffect = () => {
       animations: ['fall-1', 'fall-2', 'fall-3'],
     };
 
-    let count = 0;
-
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
     const selectRandom = (items) => items[rand(0, items.length - 1)];
     const withUnit = (value, unit) => `${value}${unit}`;

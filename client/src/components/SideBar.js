@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './SideBar.css';
 
-function SideBar({favorites, onColorChange, onRemoveFavorite}) {
+function SideBar({ favorites, onColorChange, onRemoveFavorite, palettes, setPalettes, getAllPalettes }) {
+    
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        if (!isOpen) {
+            getAllPalettes();
+        }
+        setIsOpen(!isOpen);
+    }
+
     return (
         <>
             <input id="slide-sidebar" type="checkbox" role="button" />
-            <label class="close-menu noselect" for="slide-sidebar"><span className="sidebar-btn">≡</span></label>
+            <label class="close-menu noselect" for="slide-sidebar" onClick={handleOpen}><span className="sidebar-btn">≡</span></label>
 
             <div class="controls">
             <span className="favourite-title">Favorites</span>

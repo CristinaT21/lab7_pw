@@ -1,0 +1,267 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Color Palette",
+        "description": "API Documentation for Color Palette",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login/{type}": {
+            "get":{
+                "summary": "Login",
+                "description": "Login", 
+                "parameters": [{
+                    "name": "type",
+                    "in": "path",
+                    "description": "user type",
+                    "required": true,
+                    "type": "string"}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "data": {
+                                    "type": "object",
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        },
+        "/api/color_palette/{id}": {
+            "get":{
+                "summary": "Get color palette by id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Color palette id",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Token",
+                    "required": true,
+                    "type": "string"}
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Color palette retrieved successfully",
+                        "schema": {
+                            "$ref": "#/definitions/ColorPalette"
+                        }
+                    },
+                    "404":{
+                        "description": "Palette not found"
+                    }
+                }
+            },
+            "put":{
+                "summary": "Update color palette by id",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Color palette id",
+                    "required": true,
+                    "type": "integer"
+                },{
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Token",
+                    "required": true,
+                    "type": "string"},
+                {
+                    "name": "body",
+                    "in": "body",
+                    "description": "Color palette object",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Name of the color palette"
+                            },
+                            "color": {
+                                "type": "string",
+                                "description": "Color code"
+                            }
+                        },
+                        "required":["name", "color"]
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Color palette updated successfully",
+                        "schema": {
+                            "$ref": "#/definitions/ColorPalette"
+                        }
+                    },
+                    "404": {
+                        "description": "Palette not found"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete color palette by id",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Color palette id",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Token",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Color palette deleted successfully"
+                    },
+                    "404": {
+                        "description": "Palette not found"
+                    }
+                }
+            }
+        },
+        "/api/color_palette": {
+            "get":{
+                "summary": "Get all color palettes",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Token",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Color palettes retrieved successfully",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ColorPalette"
+                            }
+                        }
+                    },
+                    "404":{
+                        "description": "No palettes found"
+                    }
+                }
+            },
+            "post":{
+                "summary": "Create a new color palette",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "body",
+                    "in": "body",
+                    "description": "Color palette object",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "color": {
+                                "type": "string"
+                            }
+                        },
+                        "required": ["name", "color"]
+                    }
+                },
+                {
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "Token",
+                    "required": true,
+                    "type": "string"
+                }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Color palette created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/ColorPalette"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "status": {
+                                    "type": "string"
+                                },
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "ColorPalette": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "color": {
+                    "type": "string"
+                    
+                }
+            }
+
+        }
+    }
+}
