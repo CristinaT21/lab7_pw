@@ -164,7 +164,7 @@
         },
         "/api/color_palette": {
             "get":{
-                "summary": "Get all color palettes",
+                "summary": "Get a list of color palettes with pagination",
                 "produces": [
                     "application/json"
                 ],
@@ -174,7 +174,24 @@
                     "description": "Token",
                     "required": true,
                     "type": "string"
-                }],
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "description": "Number of items to return",
+                    "required": false,
+                    "type": "integer",
+                    "default": 10
+                },
+                {
+                    "name": "offset",
+                    "in": "query",
+                    "description": "Number of items to skip",
+                    "required": false,
+                    "type": "integer",
+                    "default": 0
+                }
+                ],
                 "responses": {
                     "200": {
                         "description": "Color palettes retrieved successfully",

@@ -29,7 +29,15 @@ def login(type):
 @jwt_required()
 def color_palette_crud():
     if request.method == 'GET':
-        color_palette = ColorPalette.query.all()
+        # add pagination
+        default_limit = 10
+        default_skip = 0
+
+        limit = request.args.get('limit', default=default_limit, type=int)
+        offset = request.args.get('offset', default=default_skip, type=int)
+
+        color_palette = ColorPalette.query.limit(limit).offset(offset).all()
+        
         if color_palette is not None:
             result = []
             for color in color_palette:
